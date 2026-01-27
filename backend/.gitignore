@@ -1,4 +1,4 @@
-# Node modules
+# Node dependencies (IMPORTANT)
 node_modules/
 
 # Environment variables
@@ -13,16 +13,13 @@ yarn-error.log*
 .DS_Store
 Thumbs.db
 
-# Build files (for frontend later)
+# Build output
 dist/
 build/
 
 # IDE / Editor files
 .vscode/
 .idea/
-
-# MySQL / Database dumps
-*.sql
 
 # Coverage reports
 coverage/
