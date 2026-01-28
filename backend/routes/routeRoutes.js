@@ -1,13 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const db = require("../db");
+const { getRoutes } = require("../controllers/routeController");
 
-router.get("/routes", (req, res) => {
-  const sql = "SELECT * FROM routes";
-  db.query(sql, (err, results) => {
-    if (err) return res.status(500).json(err);
-    res.json(results);
-  });
-});
+router.get("/routes", getRoutes);
 
 module.exports = router;
