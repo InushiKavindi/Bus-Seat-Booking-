@@ -3,7 +3,7 @@ const db = require("../db");
 exports.getSchedules = (req, res) => {
   const routeId = req.params.routeId;
   const sql = `
-    SELECT s.schedule_id, s.travel_date, s.travel_time, b.bus_name
+    SELECT s.schedule_id, s.arrival_time, s.departure_time, s.type, s.status, b.bus_no
     FROM schedules s
     JOIN buses b ON s.bus_id = b.bus_id
     WHERE s.route_id = ?

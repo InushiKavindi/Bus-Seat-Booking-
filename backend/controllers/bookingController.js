@@ -33,3 +33,8 @@ exports.createBooking = (req, res) => {
     });
   });
 };
+
+// User endpoint: disallow changing seat after confirmation
+exports.updateBookingSeat = (req, res) => {
+  return res.status(403).json({ error: "Only admin can change seat" });
+};
