@@ -14,3 +14,7 @@ export async function getCities() {
 export async function getRoutesByCities(fromId, toId) {
   return fetchJSON(`${API_BASE}/routes/by-cities?from=${encodeURIComponent(fromId)}&to=${encodeURIComponent(toId)}`);
 }
+
+export async function getSchedulesByRoute(routeId) {
+  return fetchJSON(`${API_BASE}/schedules/${encodeURIComponent(routeId)}`)
+}
