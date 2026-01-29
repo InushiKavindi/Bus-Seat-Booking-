@@ -8,6 +8,15 @@ exports.getRoutes = (req, res) => {
   });
 };
 
+// Get all active cities for dropdowns
+exports.getCities = (req, res) => {
+  const sql = "SELECT city_id, city_name FROM cities WHERE status = 1 ORDER BY city_name";
+  db.query(sql, (err, rows) => {
+    if (err) return res.status(500).json({ error: "DB error", details: err });
+    res.json(rows);
+  });
+};
+
 // Get a route by from_city and to_city (IDs), include city names
 exports.getRouteByCities = (req, res) => {
   const from = req.query.from;
