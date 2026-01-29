@@ -100,3 +100,45 @@ exports.adminUpdateBookingSeat = (req, res) => {
     });
   });
 };
+
+// Update a schedule (admin-only route).
+// Allows updating any subset of: route_id, bus_id, arrival_time, departure_time, type, status
+exports.updateSchedule = (req, res) => {
+  const scheduleId = req.params.id;
+  const {
+    route_id,
+    bus_id,
+    arrival_time,
+    departure_time,
+    type,
+    status
+  } = req.body;
+
+  // Validate type if provided
+  if (type && type !== "weekday" && type !== "weekend") {
+    return res.status(400).json({ error: "Invalid type. Use 'weekday' or 'weekend'" });
+  }
+
+  const fields = [];
+  const params = [];
+
+  if (route_id !== undefined) { fields.push("route_id = ?"); params.push(route_id); }
+  if (bus_id !== undefined) { fields.push("bus_id = ?"); params.push(bus_id); }
+  if (arrival_time !== undefined) { fields.push("arrival_time = ?"); params.push(arrival_time); }
+  if (departure_time !== undefined) { fields.push("departure_time = ?"); params.push(departure_time); }
+  if (type !== undefined) { fields.push("type = ?"); params.push(type); }
+  if (status !== undefined) { fields.push("status = ?"); params.push(status); }
+
+  if (fields.length === 0) {
+    return res.status(400).json({ error: "No fields to update" });
+  }
+
+  const sql = `UPDATE schedules SET ${fields.join(", ")} WHERE schedule_id = ?`;
+  params.push(scheduleId);
+
+  db.query(sql, params, (err, result) => {
+    if (err) return res.status(500).json({ error: "DB error", details: err });
+    if (result.affectedRows === 0) return res.status(404).json({ error: "Schedule not found" });
+    return res.json({ message: "Schedule updated" });
+  });
+};
